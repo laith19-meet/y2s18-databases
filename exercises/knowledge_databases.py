@@ -21,25 +21,28 @@ def add_article(name , interests, rating ):
 	
 add_article ("mor" , "reading " , 9)
 add_article("mat" , "math" , 11)
+add_article("sam","nothing",3 )
+add_article("waseem" , "tennis" , 8)
+add_article("shir" , "cs", 10)
+add_article("shira", "cycling" , 9.5)
+add_article("laith", "sports" , 10000)
+add_article("Cristiano Ronaldo" ,"football", 0)
 def query_all_articles():
 	friend = session.query(
 		Knowledge).all()
 	return friend
-print(query_all_articles())
 
 def query_article_by_topic(name):
 	article_topic = session.query(
 		Knowledge).filter_by(
 		name=name).first()
 	return article_topic
-print (query_article_by_topic("mor"))
 
 
 def delete_article_by_topic(name):
 	session.query(Knowledge).filter_by(
 		name=name).delete()
 	session.commit()
-delete_article_by_topic("sam")
 
 def delete_all_articles():
 	session.query(Knowledge).delete()
@@ -53,11 +56,17 @@ def edit_article_rating(name , rating):
 	session.commit()
 
 def top_five_topics():
-	top_five =session.query(Knowledge).filter_by(
-		rating=rating).all
-	return top_five
-print(top_five_topics())
+	top_five =session.query(Knowledge).order_by(
+		Knowledge.rating.desc()).all()
+	return top_five[0:6]
+
+
 edit_article_rating("mor" , 10)
-print(query_all_articles())
+edit_article_rating("waseem", 13)
+print(top_five_topics())
+#print(query_all_articles())
+print (query_article_by_topic("name"))
+#print(query_all_articles())
+delete_article_by_topic("sam")
 delete_all_articles()
 
